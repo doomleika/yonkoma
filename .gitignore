@@ -1,0 +1,6 @@
+node_modules/
+cache/
+pixmicat.db3
+sizecache.dat
+fileioindex.dat
+index.htm
