@@ -1,5 +1,7 @@
 var isMobileDevice = require('./lib/isMobileDevice.js');
 var UI = require('./lib/UI.js');
+var hideform = require('./lib/hideform.js');
+var showform = require('./lib/showform.js');
 
 jQuery.fn.extend({
     insertAtCaret: function(myValue) {
@@ -26,13 +28,6 @@ jQuery.fn.extend({
         });
     }
 });
-
-function hideform() {
-    $("#postform")[0].className = 'hide_btn';
-    $("#postform_tbl")[0].className = 'hide';
-    $("#hide")[0].className = 'hide';
-    $("#show")[0].className = 'show';
-}
 
 (function() {
     var uuid = '';
@@ -81,12 +76,6 @@ function hideform() {
         $('#postform_main').find('.pugid').attr('value', localStorage.getItem('pugid'));
     });
 
-    function showform() {
-        $("#postform")[0].className = '';
-        $("#postform_tbl")[0].className = '';
-        $("#hide")[0].className = 'show';
-        $("#show")[0].className = 'hide';
-    }
     $(document).ready(function() {
 
         $('#show').mouseover(function() { showform(); });
@@ -813,4 +802,8 @@ function hideform() {
         }
         console.log("100w * (getAttribute): " + (new Date()-st) + "ms");*/
     });
+})();
+(function() {
+    var window = this || (0, eval)('this');
+    window.hideform = hideform;
 })();

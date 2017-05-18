@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -83,7 +83,45 @@ module.exports = isMobileDevice;
 var isMobileDevice = __webpack_require__(0);
 
 var UI = {};
-UI.PopupView = (function() {
+var PopupView = __webpack_require__(4);
+
+module.exports = {
+    'PopupView': PopupView
+};
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+function hideform() {
+    $("#postform")[0].className = 'hide_btn';
+    $("#postform_tbl")[0].className = 'hide';
+    $("#hide")[0].className = 'hide';
+    $("#show")[0].className = 'show';
+}
+
+module.exports = hideform;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+function showform() {
+    $("#postform")[0].className = '';
+    $("#postform_tbl")[0].className = '';
+    $("#hide")[0].className = 'show';
+    $("#show")[0].className = 'hide';
+}
+
+module.exports = showform;
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isMobileDevice = __webpack_require__(0);
+
+PopupView = (function() {
     function PopupView(default_parent) {
         this.default_parent = default_parent;
         this._popupStack = [];
@@ -352,14 +390,16 @@ UI.PopupView = (function() {
     return PopupView;
 })();
 
-module.exports = UI;
+module.exports = PopupView;
 
 /***/ }),
-/* 2 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isMobileDevice = __webpack_require__(0);
 var UI = __webpack_require__(1);
+var hideform = __webpack_require__(2);
+var showform = __webpack_require__(3);
 
 jQuery.fn.extend({
     insertAtCaret: function(myValue) {
@@ -386,13 +426,6 @@ jQuery.fn.extend({
         });
     }
 });
-
-function hideform() {
-    $("#postform")[0].className = 'hide_btn';
-    $("#postform_tbl")[0].className = 'hide';
-    $("#hide")[0].className = 'hide';
-    $("#show")[0].className = 'show';
-}
 
 (function() {
     var uuid = '';
@@ -441,12 +474,6 @@ function hideform() {
         $('#postform_main').find('.pugid').attr('value', localStorage.getItem('pugid'));
     });
 
-    function showform() {
-        $("#postform")[0].className = '';
-        $("#postform_tbl")[0].className = '';
-        $("#hide")[0].className = 'show';
-        $("#show")[0].className = 'hide';
-    }
     $(document).ready(function() {
 
         $('#show').mouseover(function() { showform(); });
@@ -1173,6 +1200,10 @@ function hideform() {
         }
         console.log("100w * (getAttribute): " + (new Date()-st) + "ms");*/
     });
+})();
+(function() {
+    var window = this || (0, eval)('this');
+    window.hideform = hideform;
 })();
 
 /***/ })
