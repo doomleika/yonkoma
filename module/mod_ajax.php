@@ -241,11 +241,9 @@ class mod_ajax{
 		if( !$PIO->isThread($op) ) $this->output_error('thread doesnt exist');
 
 		$tree = $PIO->fetchPostList($op);
-
 		$re = array(
 			'posts' => array()
 		);
-
 		$cnt = 0;
 		$posts = $PIO->fetchPosts( $tree );
 		foreach($posts as $post)
@@ -258,9 +256,29 @@ class mod_ajax{
 		$this->output_json($re);
 	}
 
+	/* 
+	 * 單一Post操作介面
+	 */
+	function dumpPost($op, $html = false)
+	{
+		global $PIO;
+		$op = intval($op);
+		$isThreadPost = $PIO->isThread($op);
+		// workaround for _dumpHtml
+		$tree = array('post' => $op);
+		$posts = $PIO->fetchPosts($op);
+		// Fetch (the only element)
+		$post = reset($posts);
+		$ar = $this->filterPost($post);
+		if($html) {
+			$ar['html'] = $this->_dumpHtml($post, $tree, $isThreadPost);
+		}
+		$this->output_json($ar);
+	}
+
 	/* 模組獨立頁面 */
 	function ModulePage(){
-		$valid_action = array('threads', 'posts', 'thread');
+		$valid_action = array('threads', 'posts', 'thread', 'post');
 		if( isset($_GET['action']) ) $action = $_GET['action'];
 		if( !in_array($action, $valid_action) ) $this->output_error('invalid action');
 
@@ -295,6 +313,17 @@ class mod_ajax{
 			}
 
 			$this->dumpPosts($limit, $after);
+		}
+		else if($action=='post')
+		{
+			if( isset($_GET['op']) && intval($_GET['op']) )
+			{
+				$this->dumpPost(intval($_GET['op']), $html);
+			}
+			else
+			{
+				$this->output_error('invalid op number');
+			}			
 		}
 		else if($action=='thread')
 		{
